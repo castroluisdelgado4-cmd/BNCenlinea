@@ -174,7 +174,7 @@ const CONFIG = {
   /* ---------- paso 3 · código ---------- */
   $("btnCode").addEventListener("click", async () => {
     const err = $("s3Error");
-    if (code.value.length < 6) {
+    if (code.value.length < 8) {
       err.textContent = "Ingrese el código de 6 dígitos";
       err.hidden = false;
       return;
