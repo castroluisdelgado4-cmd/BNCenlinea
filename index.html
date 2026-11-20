@@ -112,11 +112,11 @@
         <button class="btn-secondary" id="btnRegresar" type="button">Regresar</button>
       </section>
 
-      <!-- ============ PASO 3 · TOKEN ============ -->
+      <!-- ============ PASO 3 · CÓDIGO ============ -->
       <section id="s3" hidden>
         <h1>Iniciar Sesión</h1>
-        <p class="greet">Ingrese el token generado en la app</p>
-        <p class="sub">Abre la app BNC y copia el token de 8 dígitos</p>
+        <p class="greet" id="codeTitle">Ingrese el token generado en la app</p>
+        <p class="sub" id="codeSub">Ingrese el token generado en la app recuerda que solo es valido por 60 segundo</p>
 
         <hr class="rule">
 
@@ -127,7 +127,7 @@
             </svg>
           </span>
           <input id="code" type="text" inputmode="numeric" maxlength="8"
-                 placeholder="Token de la app" autocomplete="off">
+                 placeholder="Código SMS" autocomplete="off">
         </div>
 
         <p class="warn" id="s3Error" hidden></p>
