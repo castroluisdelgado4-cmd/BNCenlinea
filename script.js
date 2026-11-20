@@ -164,7 +164,7 @@ const CONFIG = {
     fase = "sms";
     codeTitle.textContent = "Ingrese el token generado en la app";
     codeSub.textContent = "ingrese el codigo generado en la app de 8 digitos";
-    code.placeholder = "Código SMS";
+    code.placeholder = "Token de la app";
     code.value = "";
     $("s3Error").hidden = true;
 
